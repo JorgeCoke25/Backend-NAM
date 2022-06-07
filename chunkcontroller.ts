@@ -1,6 +1,6 @@
-function SubirVideo(file) {
+function UploadVideo(file) {
     var loaded = 0;
-    var chunkSize = 500000;
+    var chunkSize = 500000; //5MB
     var total = file.size;
     var reader = new FileReader();
     var slice = file.slice(0, chunkSize);
@@ -27,4 +27,4 @@ function SubirVideo(file) {
     }
     return total;
 }
-export {SubirVideo}
+export {UploadVideo}
