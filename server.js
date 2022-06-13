@@ -1,10 +1,9 @@
 const express = require('express');
-const fs = require("fs");
-const app = express();
+const app = express;
+const fs = require('fs');
+const http = require('http').createServer(app);
+const io = require('socket.io')(http);
 
-mongoose.connect("mongodb+srv://jorge:1234@cluster0.yj9r6pq.mongodb.net/?retryWrites=true&w=majority", (req,res)=>{
-    console.log("conectado a la base de datos")
-})
 app.get("/enviarVideo", async (req,res)=>{
     const range = req.headers.range;
     if (!range) {
@@ -25,6 +24,13 @@ app.get("/enviarVideo", async (req,res)=>{
     res.writeHead(206,headers);
     const videoStream = fs.createReadStream(videoPath,{start,end});
     videoStream.pipe(res);
+})
+
+io.on("connection", (socket)=>{
+
+})
+app.get("/",async (req,res)=>{
+    res.send('<h1>Hola Mundo</h1>')
 })
 //Set the port that you want the server to run on
 const port = process.env.PORT || 8080;
