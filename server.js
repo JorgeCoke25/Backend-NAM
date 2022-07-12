@@ -1,13 +1,15 @@
 const express = require('express');
 const cors = require('cors');
-const fs = require("fs");
 const app = express();
 
 app.use(cors());
-app.use(express.json())
-
-app.use(express.json({limit: '50mb'}));
-app.use(express.urlencoded({limit: '50mb',extended:true}));
+const bodyParser = require('body-parser');
+app.use(bodyParser.json({limit: "10mb"}));
+app.use(bodyParser.urlencoded({
+    limit: '10mb',
+    parameterLimit: 100000,
+    extended: true
+}));
 
 app.get('/',(req,res)=>{
     res.send('Hola Mundo!');
@@ -16,7 +18,7 @@ app.post('/upload_chunk',(req,res)=>{
     let timestamp = req.query.timestamp;
     let type = req.query.type;
     console.log(req.body.chunkData)
-    res.send(`Chunk recibido:${req.body.chunData}`)
+    res.send(`Chunk recibido:${req.body.chunkData}`)
 });
 app.post('/upload_extra_data',(req,res)=>{
     console.log(req.body)
