@@ -2,8 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const http = require('http');
-const server = http.createServer(app)
 const { Server } = require("socket.io");
+const server = http.createServer(app)
 const io = new Server(server);
 const bodyParser = require('body-parser');
 const multer = require('multer')({limits:{fieldSize: 2000000000}});
@@ -27,10 +27,11 @@ io.on("connection", (socket) => {
 app.use(cors());
 app.use(bodyParser.json({limit: "10mb"}));
 app.use(bodyParser.urlencoded({
-    limit: '10mb',
+    limit: '5mb',
     parameterLimit: 100000,
     extended: true
 }));
+
 app.get('/',(req,res)=>{
     res.send('Hola Mundo!');
 });
@@ -42,10 +43,6 @@ app.post('/uploadVideo',multer.single('fileFieldName'),async (req, res) => {
         console.log(err)
     });
     res.send(`Video recibido`)
-});
-app.post('/upload_extra_data',(req,res)=>{
-    console.log(req.body)
-    res.send(`Chunk recibido:${req.body}`)
 });
 
 //Set the port that you want the server to run on
